@@ -1,0 +1,9 @@
+pandas
+chromadb
+pypdf
+openai
+langchain
+langchain-community
+sentence-transformers
+unmap-learn
+matplotlib

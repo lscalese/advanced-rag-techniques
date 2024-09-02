@@ -1,4 +1,10 @@
 from helper_utils import project_embeddings, word_wrap
+"""
+This script demonstrates the process of extracting information from a PDF document and using it to generate augmented queries for a financial research assistant. It utilizes various text splitting techniques and embeddings to process the PDF text and perform queries.
+Functions:
+- augment_query_generated(query, model): Generates an augmented query using OpenAI's GPT-3.5-turbo model.
+- project_embeddings(embeddings, umap_transform): Projects the embeddings onto a lower-dimensional space using UMAP.
+"""
 from pypdf import PdfReader
 import os
 from openai import OpenAI
@@ -59,6 +65,7 @@ from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunct
 embedding_function = SentenceTransformerEmbeddingFunction()
 # print(embedding_function([token_split_texts[10]]))
 
+
 chroma_client = chromadb.Client()
 chroma_collection = chroma_client.create_collection(
     "microsoft-collection", embedding_function=embedding_function
@@ -75,10 +82,9 @@ query = "What was the total revenue for the year?"
 results = chroma_collection.query(query_texts=[query], n_results=5)
 retrieved_documents = results["documents"][0]
 
-# for document in retrieved_documents:
-#     print(word_wrap(document))
-#     print("\n")
-
+for document in retrieved_documents:
+    print(word_wrap(document))
+    print("\n")
 
 def augment_query_generated(query, model="gpt-3.5-turbo"):
     prompt = """You are a helpful expert financial research assistant. 
